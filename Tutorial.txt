@@ -1,0 +1,119 @@
+----------------------------------------
+Secure File Transfer v2 - Usage Tutorial
+----------------------------------------
+
+This tutorial explains how to use the CyberSecure File Transfer v2 application to encrypt, sign, decrypt, and verify files using hybrid encryption (AES + RSA) with digital signatures.
+
+--------------------------------------------------------
+Step 1: Generate RSA Keys and Certificates for Each User
+--------------------------------------------------------
+
+Open the application.
+In the "Select User (Sender)" field, type a new username (e.g., alice).
+Click "Generate Keypair & Certificate".
+Repeat the process for each user you want to add (e.g., bob).
+This step automatically creates and stores:
+Private key (<username>_priv.pem)
+Public key (<username>_pub.pem)
+Digital certificate (<username>_cert.pem)
+All these files are saved in the keys folder, in PEM format. The certificate contains the public key and identity information for each user.
+
+What is a PEM file?
+
+A PEM file (“Privacy Enhanced Mail”) is a standard text file used to store cryptographic keys and certificates. PEM files use Base64 encoding and always start/end with lines like:
+-----BEGIN PRIVATE KEY-----
+(base64-encoded data)
+-----END PRIVATE KEY-----
+The app saves all user private keys, public keys, and certificates as PEM files in the keys directory. Protect private key files carefully: anyone with access to your .pem private key can decrypt your files or sign as you!
+
+-------------------------------
+Step 2: Encrypt and Sign a File
+-------------------------------
+
+In "Select User (Sender)", choose the user who wants to send the file (e.g., alice).
+In "Recipient", select the user who should receive and decrypt the file (e.g., bob).
+Click "Select File" and choose the file you want to encrypt.
+Click "Encrypt & Sign".
+
+This generates 3 files in the same folder:
+
+<filename>.enc – AES-encrypted file
+<filename>.key.rsa – AES key encrypted with recipient’s RSA public key
+<filename>.sig – digital signature generated using sender’s private key
+
+---------------------------------
+Step 3: Decrypt and Verify a File
+---------------------------------
+
+In "Select User (Sender)", choose the user who will decrypt the file (e.g., bob).
+In "Recipient", select the original sender who signed the file (e.g., alice).
+Click "Auto-Select Encrypted Files" and choose the .enc file.
+The app will automatically load the corresponding .key.rsa and .sig files.
+Click "Decrypt & Verify".
+Choose a filename and location to save the decrypted file.
+If everything is correct, you’ll see:
+"Decryption and signature verification succeeded."
+If the files do not match or were tampered with, you will get an error.
+
+File Roles Summary
+File	Purpose	Who can use it?
+<file>.enc	AES-encrypted file	Only recipient with AES key
+<file>.key.rsa	Encrypted AES key (with RSA)	Only recipient’s private RSA key
+<file>.sig	Signature of ciphertext	Anyone with sender’s public key
+
+Key and Certificate Files
+File	Purpose	Location
+<user>_priv.pem	User’s private RSA key (keep safe!)	keys folder
+<user>_pub.pem	User’s public RSA key	keys folder
+<user>_cert.pem	Digital certificate for user	keys folder
+
+Notes:
+
+Do not rename the .enc, .key.rsa, or .sig files.
+Always use Auto-Select Encrypted Files to ensure the correct set is used.
+RSA key length used is 2048 bits by default.
+All keys and certificates are in PEM format for compatibility with cryptographic standards.
+
+---------------------------------------------
+Step 4: Send Encrypted Files Over the Network
+---------------------------------------------
+
+To transfer encrypted files from one computer to another, you need to run the application on both PCs – one acts as server (receiver), and one as client (sender).
+
+How to send encrypted files:
+On the receiver PC (server):
+
+Open the application.
+Make sure the server is running (the “receive” code listens on port 5001 by default).
+The server’s IP address must be reachable from the sender PC (if on same network, use local IP; if using port forwarding, use public IP).
+
+On the sender PC (client):
+
+Open the application.
+Prepare your files (encrypt and sign as described above).
+Click "Auto-Select Encrypted Files" to load the set you want to send.
+Click "Send Encrypted Files".
+When prompted, enter the IP address of the receiver PC (the default is 127.0.0.1, which works only for local testing – for real transfers, enter the LAN or WAN IP).
+The app will connect to the server and transfer the .enc, .key.rsa, and .sig files.
+If everything works, you will see a success message.
+
+Note:
+
+Make sure firewalls allow communication on port 5001, or choose another free port and update it in the code.
+If PCs are in the same local network (WiFi/router), use the receiver’s local IP (e.g., 192.168.1.10).
+If connecting over the internet, use port forwarding on the receiver’s router and provide the public IP.
+
+Example: Sending from one PC to another (LAN)
+On the receiver PC:
+Start the app, and make sure it is ready to receive files (server running on port 5001).
+Find your IP address using ipconfig (Windows) or ifconfig (Linux/Mac), e.g., 192.168.1.23.
+
+On the sender PC:
+Start the app.
+Click “Send Encrypted Files” and enter 192.168.1.23 (the IP of the receiver).
+The files will be sent and automatically saved on the receiver’s PC.
+
+Troubleshooting
+If the connection fails, double-check the IP address and make sure the receiver app is running.
+Disable Windows Defender Firewall or add an exception for port 5001 if needed.
+If using port forwarding (for WAN transfers), make sure the router forwards port 5001 to the correct local IP.

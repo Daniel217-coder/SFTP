@@ -1,0 +1,52 @@
+{
+  "alice": {
+    "public_key": "keys/alice_pub.pem",
+    "private_key": "keys/alice_priv.pem",
+    "certificate": "keys/alice_cert.pem"
+  },
+  "bob": {
+    "public_key": "keys/bob_pub.pem",
+    "private_key": "keys/bob_priv.pem",
+    "certificate": "keys/bob_cert.pem"
+  },
+  "Aurel": {
+    "public_key": "keys\\Aurel_pub.pem",
+    "private_key": "keys\\Aurel_priv.pem",
+    "certificate": "keys\\Aurel_cert.pem"
+  },
+  "Angel": {
+    "public_key": "keys\\Angel_pub.pem",
+    "private_key": "keys\\Angel_priv.pem",
+    "certificate": "keys\\Angel_cert.pem"
+  },
+  "Alin": {
+    "public_key": "keys\\Alin_pub.pem",
+    "private_key": "keys\\Alin_priv.pem",
+    "certificate": "keys\\Alin_cert.pem"
+  },
+  "M": {
+    "public_key": "keys\\M_pub.pem",
+    "private_key": "keys\\M_priv.pem",
+    "certificate": "keys\\M_cert.pem"
+  },
+  "L": {
+    "public_key": "keys\\L_pub.pem",
+    "private_key": "keys\\L_priv.pem",
+    "certificate": "keys\\L_cert.pem"
+  },
+  "Frank": {
+    "public_key": "keys\\Frank_pub.pem",
+    "private_key": "keys\\Frank_priv.pem",
+    "certificate": "keys\\Frank_cert.pem"
+  },
+  "USER": {
+    "public_key": "keys\\USER_pub.pem",
+    "private_key": "keys\\USER_priv.pem",
+    "certificate": "keys\\USER_cert.pem"
+  },
+  "Ben": {
+    "public_key": "keys\\Ben_pub.pem",
+    "private_key": "keys\\Ben_priv.pem",
+    "certificate": "keys\\Ben_cert.pem"
+  }
+}
